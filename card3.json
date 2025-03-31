@@ -1,0 +1,36 @@
+{
+  "title": "The Drought",
+  "description": "A severe drought has hit the mining colony. You need to make a tough choice.",
+  "options": [
+    {
+      "text": "Ration water and food supplies",
+      "effect": {
+        "population": -20,
+        "morale": -10,
+        "foodWater": -20,
+        "prosperity": -5,
+        "energy": 0
+      }
+    },
+    {
+      "text": "Dig for water deeper underground",
+      "effect": {
+        "population": -5,
+        "morale": 5,
+        "foodWater": 10,
+        "prosperity": 0,
+        "energy": -10
+      }
+    },
+    {
+      "text": "Build a water reservoir using energy",
+      "effect": {
+        "population": 0,
+        "morale": 10,
+        "foodWater": 5,
+        "prosperity": 10,
+        "energy": -15
+      }
+    }
+  ]
+}
