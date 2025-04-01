@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine Town Leadership Dilemma</title>
+    <style>
+        body {
+            background-color: #222;
+            font-family: 'Courier New', monospace;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        #game-container {
+            background-color: black;
+            width: 80vw;
+            height: 60vh;
+            border: 2px solid #555;
+            border-radius: 5px;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #stats-panel {
+            width: 100%;
+            height: 60px;
+            background-color: #222;
+            border: 2px solid #444;
+            padding: 5px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            font-size: 17px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+            font-size: clamp(12px, 2vw, 17px); /* Responsive font size */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 20%; /* Ensure each stat takes up no more than 20% of container */
+        }
+        .stat-item:nth-child(1) { color: lime; }
+        .stat-item:nth-child(2) { color: cyan; }
+        .stat-item:nth-child(3) { color: orange; }
+        .stat-item:nth-child(4) { color: red; }
+        .stat-item:nth-child(5) { color: gold; }
+
+        #game-background {
+            width: 100%;
+            height: 50%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid #666;
+        }
+
+        #continue-button {
+            width: 15vw;
+            height: auto;
+            min-height: 6vh;
+            background-color: #555;
+            border: 2px solid #888;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(16px, 2vw, 24px);
+            cursor: pointer;
+            margin-top: 5vh;
+            padding: 10px;
+        }
+
+        #continue-button:hover {
+            background-color: #666;
+        }
+
+        #popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 50%;
+            background-color: #333;
+            border: 3px solid #aaa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            display: none;
+            z-index: 10;
+        }
+
+        #popup-title {
+            font-size: clamp(18px, 4vw, 30px);
+            font-weight: bold;
+            margin-bottom: 10px;
+            overflow-wrap: break-word;
+        }
+
+        #popup-text {
+            font-size: clamp(14px, 3vw, 24px);
+            margin-bottom: 20px;
+            max-height: 40%;
+            overflow-y: auto; /* Allow scrolling if text is too long */
+            padding: 0 10px;
+        }
+
+        .option-button {
+            width: 80%;
+            height: auto; /* Allow height to adjust based on content */
+            min-height: 40px;
+            max-height: 80px;
+            padding: 10px;
+            background-color: #444;
+            border: 2px solid #888;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(12px, 2.5vw, 22px);
+            cursor: pointer;
+            margin: 10px auto;
+            display: block;
+            overflow-y: auto; /* Allow scrolling if text is too long */
+        }
+
+        .option-button:hover {
+            background-color: #555;
+        }
+
+        #outcome-display {
+            text-align: center;
+            width: 100%;
+            display: none;
+        }
+
+        #outcome-text {
+            font-size: clamp(14px, 3vw, 22px);
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            max-height: 30%;
+            overflow-y: auto;
+        }
+
+        #stat-changes {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        .stat-change {
+            font-size: clamp(14px, 2.5vw, 20px);
+            width: 100%;
+            text-align: left;
+            padding: 5px 10px;
+        }
+
+        #continue-after-outcome {
+            width: 50%;
+            height: auto;
+            min-height: 40px;
+            padding: 10px;
+            background-color: #555;
+            border: 2px solid #888;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(14px, 2.5vw, 20px);
+            cursor: pointer;
+            margin: 15px auto;
+        }
+
+        #continue-after-outcome:hover {
+            background-color: #666;
+        }
+
+        /* For very small screens, adjust the layout */
+        @media (max-width: 600px) {
+            #stats-panel {
+                flex-wrap: wrap;
+                height: auto;
+            }
+            
+            .stat-item {
+                margin: 5px;
+            }
+            
+            #continue-button {
+                width: 40vw;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let stats = {
+                population: 500,
+                morale: 65,
+                foodWater: 85,
+                prosperity: 42,
+                energy: 70
+            };
+
+            function updateStats() {
+                document.getElementById("population").textContent = stats.population;
+                document.getElementById("food-water").textContent = stats.foodWater;
+                document.getElementById("energy").textContent = stats.energy;
+                document.getElementById("morale").textContent = stats.morale;
+                document.getElementById("prosperity").textContent = stats.prosperity;
+            }
+
+            document.getElementById("continue-button").addEventListener("click", function() {
+                loadRandomCard(); // Load the next random card when Continue is clicked
+                document.getElementById("popup").style.display = "block";
+            });
+
+            function chooseOption(option) {
+                // Store the option for displaying outcome
+                const effect = option.effect;
+                const outcomeText = option.outcome;
+                
+                // Hide the choice options
+                document.querySelectorAll('.option-button').forEach(btn => {
+                    btn.style.display = "none";
+                });
+                
+                // Show outcome text
+                document.getElementById("outcome-text").textContent = outcomeText;
+                
+                // Display stat changes with + or - prefix
+                document.getElementById("population-change").textContent = 
+                    `Population: ${effect.population > 0 ? '+' : ''}${effect.population || 0}`;
+                document.getElementById("food-water-change").textContent = 
+                    `Food & Water: ${effect.foodWater > 0 ? '+' : ''}${effect.foodWater || 0}`;
+                document.getElementById("energy-change").textContent = 
+                    `Energy: ${effect.energy > 0 ? '+' : ''}${effect.energy || 0}`;
+                document.getElementById("morale-change").textContent = 
+                    `Morale: ${effect.morale > 0 ? '+' : ''}${effect.morale || 0}`;
+                document.getElementById("prosperity-change").textContent = 
+                    `Prosperity: ${effect.prosperity > 0 ? '+' : ''}${effect.prosperity || 0}`;
+                
+                // Style the stat changes based on positive/negative values
+                document.querySelectorAll('.stat-change').forEach(elem => {
+                    const valueText = elem.textContent.split(':')[1].trim();
+                    const value = parseInt(valueText);
+                    if (value > 0) {
+                        elem.style.color = "lime";
+                    } else if (value < 0) {
+                        elem.style.color = "red";
+                    } else {
+                        elem.style.color = "white";
+                    }
+                });
+                
+                // Show the outcome display
+                document.getElementById("outcome-display").style.display = "block";
+                
+                // Set up continue button after outcome
+                document.getElementById("continue-after-outcome").addEventListener("click", function() {
+                    // Apply the stat changes
+                    stats.population += effect.population || 0;
+                    stats.morale += effect.morale || 0;
+                    stats.foodWater += effect.foodWater || 0;
+                    stats.prosperity += effect.prosperity || 0;
+                    stats.energy += effect.energy || 0;
+                    
+                    // Update display
+                    updateStats();
+                    
+                    // Reset and hide popup
+                    document.getElementById("outcome-display").style.display = "none";
+                    document.getElementById("popup").style.display = "none";
+                    
+                    // Remove the event listener to prevent duplicates
+                    document.getElementById("continue-after-outcome").removeEventListener("click", arguments.callee);
+                });
+            }
+
+            // Function to check if element's content is overflowing
+            function isOverflowing(element) {
+                return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+            }
+
+            function adjustTextToFit() {
+                // Get elements that might need adjustment
+                const popupText = document.getElementById("popup-text");
+                const popupTitle = document.getElementById("popup-title");
+                const optionButtons = document.querySelectorAll(".option-button");
+                const outcomeText = document.getElementById("outcome-text");
+                
+                // Adjust popup title if needed
+                if (isOverflowing(popupTitle)) {
+                    let size = parseInt(window.getComputedStyle(popupTitle).fontSize);
+                    while (isOverflowing(popupTitle) && size > 14) {
+                        size--;
+                        popupTitle.style.fontSize = size + "px";
+                    }
+                }
+                
+                // Adjust popup text if needed
+                if (isOverflowing(popupText) && popupText.scrollHeight > popupText.clientHeight * 2) {
+                    // If text is significantly overflowing, add a fade effect to indicate scrollable content
+                    popupText.style.maskImage = "linear-gradient(to bottom, black 80%, transparent 100%)";
+                    popupText.style.webkitMaskImage = "linear-gradient(to bottom, black 80%, transparent 100%)";
+                }
+                
+                // Adjust outcome text if needed
+                if (outcomeText.style.display !== "none" && isOverflowing(outcomeText)) {
+                    let size = parseInt(window.getComputedStyle(outcomeText).fontSize);
+                    while (isOverflowing(outcomeText) && size > 12) {
+                        size--;
+                        outcomeText.style.fontSize = size + "px";
+                    }
+                }
+                
+                // Adjust option buttons if needed
+                optionButtons.forEach(button => {
+                    if (isOverflowing(button)) {
+                        let size = parseInt(window.getComputedStyle(button).fontSize);
+                        while (isOverflowing(button) && size > 10) {
+                            size--;
+                            button.style.fontSize = size + "px";
+                        }
+                    }
+                });
+            }
+
+            // Also call adjustTextToFit when window is resized
+            window.addEventListener('resize', adjustTextToFit);
+
+            // Fetch a random card JSON file from the 'cards' folder
+            function loadRandomCard() {
+                const cardFiles = [
+                    'cards/card1.json',
+                    'cards/card2.json',
+                    'cards/card3.json',
+                    'cards/card4.json'
+                ];
+
+                const randomFile = cardFiles[Math.floor(Math.random() * cardFiles.length)];
+
+                console.log('Attempting to fetch:', randomFile); // Log the path to help debugging
+
+                fetch(randomFile)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Network response was not ok: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Reset the popup to choice mode
+                        document.getElementById("outcome-display").style.display = "none";
+                        document.querySelectorAll('.option-button').forEach(btn => btn.remove());
+                        
+                        // Populate the popup with data from the JSON file
+                        document.getElementById("popup-title").textContent = data.title;
+                        document.getElementById("popup-text").textContent = data.description;
+    
+                        // Dynamically add options
+                        data.options.forEach((option) => {
+                            const optionButton = document.createElement("button");
+                            optionButton.classList.add("option-button");
+                            optionButton.textContent = option.text;
+                            optionButton.addEventListener("click", function() {
+                                chooseOption(option);  // Pass the entire option object, not just the effect
+                            });
+                            document.getElementById("popup").appendChild(optionButton);
+                        });
+                        
+                        // After popup is populated, adjust text to fit
+                        setTimeout(adjustTextToFit, 10); // Short timeout to ensure DOM is updated
+                    })
+                    .catch(error => {
+                        console.error('Error fetching the JSON file:', error);
+                        // Show error in the popup for debugging
+                        document.getElementById("popup-title").textContent = "Error";
+                        document.getElementById("popup-text").textContent = "Failed to load scenario card: " + error.message;
+                        document.getElementById("popup").style.display = "block";
+                    });
+            }
+
+            updateStats();
+        });
+    </script>
+</head>
+<body>
+    <div id="game-container">
+        <div id="stats-panel">
+            <div class="stat-item">Population: <span id="population">1500</span></div>
+            <div class="stat-item">Food & Water: <span id="food-water">85</span></div>
+            <div class="stat-item">Energy: <span id="energy">70</span></div>
+            <div class="stat-item">Morale: <span id="morale">65</span></div>
+            <div class="stat-item">Prosperity: <span id="prosperity">42</span></div>
+        </div>
+        
+        <div id="game-background">minebackground.gif</div>
+        
+        <button id="continue-button">Continue?</button>
+        
+        <div id="popup" style="display: none;">
+            <div id="popup-title"></div>
+            <div id="popup-text"></div>
+            <div id="outcome-display" style="display: none;">
+                <div id="outcome-text"></div>
+                <div id="stat-changes">
+                    <div class="stat-change" id="population-change"></div>
+                    <div class="stat-change" id="food-water-change"></div>
+                    <div class="stat-change" id="energy-change"></div>
+                    <div class="stat-change" id="morale-change"></div>
+                    <div class="stat-change" id="prosperity-change"></div>
+                </div>
+                <button id="continue-after-outcome">Continue</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
