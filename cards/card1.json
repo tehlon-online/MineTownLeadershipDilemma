@@ -1,0 +1,39 @@
+{
+  "title": "Food Strategy",
+  "description": "The food situation is grim. The mine’s stocks were not meant to last long, and while no one is hungry yet, a plan is needed. The group is looking to you for a decision.",
+  "options": [
+    {
+      "text": "Beck - Mushrooms grow in the dark, need little water, and are sustainable. We can farm them safely underground without risking lives or wasting resources. It’s not gourmet, but it beats starvation or sending people to die outside.",
+      "outcome": "The miners goan with each bite of the bitter fungus. At least no one died.",
+      "effect": {
+        "population": 0,
+        "morale": -20,
+        "foodWater": 100,
+        "prosperity": 5,
+        "energy": 50
+      }
+    },
+    {
+      "text": "Shady - The world’s full of abandoned supplies. We just have to be bold enough to take them. A few smart scavenging runs could buy us weeks of food. Farming is slow, and mushrooms? No one wants to live off fungus forever.",
+      "outcome": "At the cost of a few lives, the party was able to hunt and forage up some food for the next few weeks.",
+      "effect": {
+        "population": -10,
+        "morale": 25,
+        "foodWater": 200,
+        "prosperity": 25,
+        "energy": -25
+      }
+    },
+    {
+      "text": "Old-timer - Real food comes from the land, not caves. The surface may look bad, but with effort, we can grow crops and keep morale up. People need something worth surviving for, not just scraps and mushrooms.",
+      "outcome": "The crews work hard to till the soil. It takes a lot of muscle, but after not too long the camp is over joyed to have fresh produce.",  
+      "effect": {
+        "population": 0,
+        "morale": 40,
+        "foodWater": 250,
+        "prosperity": 30,
+        "energy": -100
+      }
+    }
+  ]
+}

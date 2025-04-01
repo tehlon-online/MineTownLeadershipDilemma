@@ -1,0 +1,39 @@
+{
+  "title": "Raiders!",
+  "description": "A wild roving band of outlanders Shouts from the compound gate: Give us food, water and power or die!",
+  "options": [
+    {
+      "text": "Old-Timer - Evacuate everyone deep inside. Quickly!",
+      "outcome": "Miners drop supplies in a panic. Not everyone makes it inside.",
+      "effect": {
+        "population": -10,
+        "morale": -30,
+        "foodWater": -30,
+        "prosperity": 50,
+        "energy": -30
+      }
+    },
+    {
+      "text": "Beck - We must avoid bloodshed. Give them what they want.",
+      "outcome": "You begrudgingly hand over the supplies. Most of the crew seems upset with the decision, but thankful to be alive",
+      "effect": {
+        "population": -0,
+        "morale": -100,
+        "foodWater": -60,
+        "prosperity": 50,
+        "energy": -60
+      }
+    },
+    {
+      "text": "Shady - GIVE UM HELL!!!",
+      "outcome": "We lost some good men, but the raiders didn't know what hit them. We even captured their supply wagon.",
+      "effect": {
+        "population": -30,
+        "morale": 100,
+        "foodWater": 30,
+        "prosperity": 100,
+        "energy": 30
+      }
+    }
+  ]
+}
