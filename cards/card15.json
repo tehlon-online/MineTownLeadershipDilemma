@@ -1,0 +1,40 @@
+{
+    "title": "Miners Find Gems",
+    "description": "A few men claim to have found gems in the waste rocks. Panning the material could yeild more. In the old world, they'd be priceless, but do they still hold value in the apocalypse?",
+    "options": [
+      {
+        "text": "Beck - We should expend the effort and share the gems equally. A well-earned reward the men can save or trade themselves.",
+        "outcome": "The miners celebrate their unexpected ''fortune''. It may not fill their stomachs, but it lifts their spirits.",
+        "effect": {
+          "population": 0,
+          "morale": 25,
+          "foodWater": 0,
+          "prosperity": -50,
+          "energy": -40
+        }
+      },
+      {
+        "text": "Shady - Outsiders might still want these. If you give the gems to me, we could trade them for real supplies. Let’s use them wisely.",
+        "outcome": "Some of the miners groan as the gems are handed over to Shady. He's later seen on the surface negotiating with a dark figure.",
+        "effect": {
+          "population": 0,
+          "morale": -10,
+          "foodWater": 100,
+          "prosperity": 100,
+          "energy": -40
+        }
+      },
+      {
+        "text": "Old Timer - These weren't that valuable before and they’re certainly worthless now. What do we do? Eat them? Get back to digging for fuel.",
+        "outcome": "The gems are left behind, seen as nothing but a distraction. Some are frustrated, but survival comes first.",
+        "effect": {
+          "population": 0,
+          "morale": -10,
+          "foodWater": 0,
+          "prosperity": 0,
+          "energy": 60
+        }
+      }
+    ]
+  }
+  

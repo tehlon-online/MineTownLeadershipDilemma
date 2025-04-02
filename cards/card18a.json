@@ -1,0 +1,40 @@
+{
+    "title": "A Herd of... Goats??",
+    "description": "Someone spots movement on the horizon. It’s not raiders… it’s goats. A whole herd of goats. In times like these, what do we do with them?",
+    "options": [
+      {
+        "text": "Shady - Steaks on the menu tonight boys! Let's saddle up and take down a few!",
+        "outcome": "You soon find yourself in a shoot off with the herd's owner. Shady was able to grab a baby before retreating, but two men died, a heavy price to pay.",
+        "effect": {
+          "population": -2,
+          "morale": -10,
+          "foodWater": 10,
+          "prosperity": 100,
+          "energy": -10
+        }
+      },
+      {
+        "text": "Old-Timer - With this many there has to be an owner. Let's sneak out at night and grab a few under cover of dark.",
+        "outcome": "You wait until nightfall. Sure enough the goats are guarded. A small group is rounded up quietly without creating an alarm.",
+        "effect": {
+          "population": 0,
+          "morale": 15,
+          "foodWater": 100,
+          "prosperity": 0,
+          "energy": 0
+        }
+      },
+      {
+        "text": "Beck - Do we have to resort to violence or stealing? Have we sunk that low? Maybe the herders are interested in trading.",
+        "outcome": "As the herd moves closer you greet the sheppard. Turns out he is in desperate need of fuel. He gladly trades several goats for excess coal.",
+        "effect": {
+          "population": 0,
+          "morale": 5,
+          "foodWater": 200,
+          "prosperity": 0,
+          "energy": -150
+        }
+      }
+    ]
+  }
+  

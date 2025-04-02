@@ -1,0 +1,39 @@
+{
+  "title": "Highly Contagious Disease",
+  "description": "A deadly illness is spreading among the people. If we don’t act fast, it could wipe out dozens. How do we handle this crisis?",
+  "options": [
+    {
+      "text": "Beck - We set up a quarantine and do everything we can to help the sick. We can’t abandon our own.",
+      "outcome": "The illness is not as bad as expected. With extra care, most of the men are back to work in a few days.",
+      "effect": {
+        "population": -1,
+        "morale": 10,
+        "foodWater": -30, 
+        "prosperity": -50,
+        "energy": -30
+      }
+    },
+    {
+      "text": "Old-Timer - Isolate the infected immediately. Strict rationing will keep the rest of us strong, even if it’s harsh.",
+      "outcome": "The disease is contained and most of the men survive but those in quarantine suffered greatly. The people resent the harsh measures.",
+      "effect": {
+        "population": -4,
+        "morale": -15,
+        "foodWater": -10,
+        "prosperity": 0,
+        "energy": -10
+      }
+    },
+    {
+      "text": "Shady - We can’t take risks of further infection. The sick must be exiled. No matter how sad it is, survival comes first.",
+      "outcome": "The disease is wiped out swiftly, but the brutal response horrifies the survivors. The community may never be the same.",
+      "effect": {
+        "population": -8,
+        "morale": -30,
+        "foodWater": 0,
+        "prosperity": 50,
+        "energy": 0
+      }
+    }
+  ]
+}

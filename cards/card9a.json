@@ -1,0 +1,40 @@
+{
+    "title": "More Survivors",
+    "description": "Two large families arrive at the compound, shivering and desperate. They seek shelter, but resources are tight. Taking them in could strain supplies, but turning them away means leaving them to the cold.",
+    "options": [
+      {
+        "text": "Beck - Of course we take them in! We can’t turn away people in need. We’ll figure the rest out later.",
+        "outcome": "The family is welcomed with open arms. Spirits rise, but the added mouths to feed strain supplies heavily.",
+        "effect": {
+          "population": 15,
+          "morale": 30,
+          "foodWater": -100,
+          "prosperity": 100,
+          "energy": -50
+        }
+      },
+      {
+        "text": "Shady - No. We cannot afford the additional mouths. Send them on their way, they survived this long.",
+        "outcome": "The dejected families move along. Some in the settlement question the cold decision. Fuel is missing in the morning.",
+        "effect": {
+          "population": 0,
+          "morale": -15,
+          "foodWater": 0,
+          "prosperity": 50,
+          "energy": -50
+        }
+      },
+      {
+        "text": "Old-Timer - We don’t give handouts. If they want to stay, they work. Let’s see what they’re made of before we make a decision.",
+        "outcome": "The families are offered food for hard labor. One family agrees. The other leaves. Morale lifts, knowing the strong stay.",
+        "effect": {
+          "population": 7,
+          "morale": 15,
+          "foodWater": -50,
+          "prosperity": 50,
+          "energy": -25
+        }
+      }
+    ]
+  }
+  

@@ -1,0 +1,39 @@
+{
+  "title": "A Strange Signal",
+  "description": "One of the men finds a radio. It picks up a faint but distinct signal, repeating a sequence of numbers. They sound like coordinates. It could be something worth investigating... or it could be a trap. What should we do?",
+  "options": [
+    {
+      "text": "Shady - We have to check it out! Discovery is how we survive! If we never take risks, we’ll never find anything worth finding.",
+      "outcome": "It's a trap! The men are ambushed. Several are captured. Only half of the scoutting party returns. The world is still very dangerous.",
+      "effect": {
+        "population": -5,
+        "morale": -20,
+        "foodWater": 0,
+        "prosperity": 0,
+        "energy": -20
+      }
+    },
+    {
+      "text": "Old-Timer - We don’t need to chase ghosts. We enhance the radio instead—pick up more signals and maybe even send one out. Could be real hope out there.",
+      "outcome": "With some engineering, the radio is improved. Soon, faint music plays over the speakers, lifting spirits. Maybe there’s still something out there…",
+      "effect": {
+        "population": 0,
+        "morale": 30,
+        "foodWater": 0,
+        "prosperity": 50,
+        "energy": -50
+      }
+    },
+    {
+      "text": "Beck - The men need a day off, not some wild goose chase. Let them rest, recover, and enjoy the moment. We can’t chase every mystery.",
+      "outcome": "The workers take a well-earned break, boosting morale. However, without scavenging or production, food stocks take a hit.",
+      "effect": {
+        "population": 0,
+        "morale": 20,
+        "foodWater": -50,
+        "prosperity": 0,
+        "energy": 50
+      }
+    }
+  ]
+}

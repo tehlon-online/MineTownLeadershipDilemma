@@ -1,0 +1,39 @@
+{
+  "title": "More Survivors",
+  "description": "Two large families arrive at the compound, shivering and desperate. They seek shelter, but resources are tight. Taking them in could strain supplies, but turning them away means leaving them to the cold.",
+  "options": [
+    {
+      "text": "Beck - Of course we take them in! We can’t turn away people in need. We’ll figure the rest out later.",
+      "outcome": "The families are welcomed with open arms, but are gone the next day... with half our supplies. Shady shakes his head and says 'trust no one.'",
+      "effect": {
+        "population": 0,
+        "morale": -20,
+        "foodWater": -100,
+        "prosperity": 100,
+        "energy": -100
+      }
+    },
+    {
+      "text": "Shady - No. We cannot afford the additional mouths. Send them on their way, they survived this long.",
+      "outcome": "The dejected families move along. Some in the settlement question the cold decision. Fuel is missing in the morning.",
+      "effect": {
+        "population": 0,
+        "morale": -15,
+        "foodWater": 0,
+        "prosperity": 50,
+        "energy": 0
+      }
+    },
+    {
+      "text": "Old-Timer - We don’t give handouts. If they want to stay, they work. Let’s see what they’re made of before we make a decision.",
+      "outcome": "The families oddly decline the offer and move along. Did we just avoid a theives or were they too soft? Either way, the men are greatful for Old-timer.",
+      "effect": {
+        "population": 0,
+        "morale": 15,
+        "foodWater": -0,
+        "prosperity": 50,
+        "energy": -0
+      }
+    }
+  ]
+}

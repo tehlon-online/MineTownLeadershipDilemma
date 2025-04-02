@@ -1,0 +1,40 @@
+{
+    "title": "Caught Stealing",
+    "description": "A young miner has been caught stealing food and alcohol. Times are tough, but theft and selfishness threatens the survival of all. How should we handle this?",
+    "options": [
+      {
+        "text": "Beck - He’s just a kid. We discipline him, but everyone deserves a second chance.",
+        "outcome": "The miner is given a stern warning and has their rations reduced for a week. Some see this as fair, while many call it soft.",
+        "effect": {
+          "population": 0,
+          "morale": -10,
+          "foodWater": 20,
+          "prosperity": 0,
+          "energy": 0
+        }
+      },
+      {
+        "text": "Old-Timer - Theft can’t go unpunished. Hard labor will teach him—and others—not to try it again.",
+        "outcome": "The miner is forced into exhausting work as punishment. It's brutal, but the settlement remains orderly.",
+        "effect": {
+          "population": 0,
+          "morale": -5,
+          "foodWater": 0,
+          "prosperity": 0,
+          "energy": 30
+        }
+      },
+      {
+        "text": "Shady - Hard labor? Aren't we ALL doing hard labor? Stealing means exile. If we don’t make an example of him, we invite chaos.",
+        "outcome": "The miner is exiled. Theft is no longer a concern, but the settlement is left shaken.",
+        "effect": {
+          "population": -1,
+          "morale": -25,
+          "foodWater": 20,
+          "prosperity": 0,
+          "energy": 0
+        }
+      }
+    ]
+  }
+  

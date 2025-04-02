@@ -1,0 +1,40 @@
+{
+    "title": "A Herd of... Goats??",
+    "description": "Someone spots movement on the horizon. It’s not raiders… it’s goats. A whole herd of goats. In times like these, what do we do with them?",
+    "options": [
+      {
+        "text": "Shady - Steaks on the menu tonight boys! Let's saddle up and take down a few!",
+        "outcome": "No owner in sight. Pow, pow, pow! Is this hunting or sport? The men return with as many goats as they can carry. ",
+        "effect": {
+          "population": -2,
+          "morale": 30,
+          "foodWater": 250,
+          "prosperity": 100,
+          "energy": -10
+        }
+      },
+      {
+        "text": "Old-Timer - With this many there has to be an owner. Let's sneak out at night and grab a few under cover of dark.",
+        "outcome": "You wait until nightfall. No owner in sight, a small group is rounded up quietly without creating a fuss.",
+        "effect": {
+          "population": 0,
+          "morale": 15,
+          "foodWater": 100,
+          "prosperity": 0,
+          "energy": 0
+        }
+      },
+      {
+        "text": "Beck - Do we have to resort to violence or stealing? Have we sunk that low? Maybe the herders are interested in trading.",
+        "outcome": "An owner never arrived and the goats moved on. A missed oportunity for sure.",
+        "effect": {
+          "population": 0,
+          "morale": -20,
+          "foodWater": 0,
+          "prosperity": 0,
+          "energy": 0
+        }
+      }
+    ]
+  }
+  

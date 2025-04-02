@@ -1,0 +1,40 @@
+{
+    "title": "Earthquake!",
+    "description": "A tremor shakes the mine, causing minor collapses. Rumblings continue. Workers begin to panic as dust fills the air. The men need instruction, and fast!",
+    "options": [
+      {
+        "text": "Shady - Forget the machines! We need to salvage food and water before anything else. If we don’t have supplies, none of us are making it through the week.",
+        "outcome": "By prioritizing supplies, food stocks remain intact, but the mine’s damage worsens, and future repairs will be harder.",
+        "effect": {
+          "population": -5,
+          "morale": -10,
+          "foodWater": 0,
+          "prosperity": -50,
+          "energy": -20
+        }
+      },
+      {
+        "text": "Old-Timer - If we don’t fix the machines now, we’re done for. We need power, we need infrastructure, and we need it fast. We can worry about the rest later.",
+        "outcome": "The machinery is stabilized, but at great cost. Some workers are lost in the effort, and food stocks are disrupted in the chaos.",
+        "effect": {
+          "population": -5,
+          "morale": -10,
+          "foodWater": -60,
+          "prosperity": 100,
+          "energy": 0
+        }
+      },
+      {
+        "text": "Beck - People come first! We can’t just leave anyone trapped under the rubble. Every second counts. If we don’t act now, lives will be lost.",
+        "outcome": "The rescue effort saves many, but resources are strained. Some machinery is beyond repair, and food supplies take a hit.",
+        "effect": {
+          "population": 0,
+          "morale": 10,
+          "foodWater": -75,
+          "prosperity": -100,
+          "energy": -75
+        }
+      }
+    ]
+  }
+  

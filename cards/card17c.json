@@ -1,0 +1,40 @@
+{
+    "title": "Echoes in the Cave",
+    "description": "Strange echoes reverberate through the tunnels. Some of the miners claim to hear voices calling to them, while others are certain the sounds are just the wind. What should we do about it?",
+    "options": [
+      {
+        "text": "Old-Timer - It’s just fear getting to them. We need to reassure the men and keep morale high. A good night’s rest should settle their nerves.",
+        "outcome": "You give the men the rest of the day off to relax. While some feel better, others are still uneasy. The echoes persist, but the mood remains stable.",
+        "effect": {
+          "population": 0,
+          "morale": 10,
+          "foodWater": 0,
+          "prosperity": 0,
+          "energy": 0
+        }
+      },
+      {
+        "text": "Beck - I think someone is down there. We can't ignore it. We need to send a party to investigate and see if we can help whoever might be trapped.",
+        "outcome": "A team ventures deeper into the cave but finds nothing. The echoes cease for a while, but the unsettling feeling lingers.",
+        "effect": {
+          "population": 0,
+          "morale": -5,
+          "foodWater": 0,
+          "prosperity": 0,
+          "energy": -20
+        }
+      },
+      {
+        "text": "Shady - Sounds like an animal to me. A big one. Let's get down there and make it dinner before it does the same to us.",
+        "outcome": "The echoes weren't just the wind... It is a massive, starving cave bear! The beast charges, and one man is mauled before the others bring it down. Sad, but the meat and victory are welcomed",
+        "effect": {
+          "population": -1,
+          "morale": 20,
+          "foodWater": 70,
+          "prosperity": 0,
+          "energy": -20
+        }
+      }
+    ]
+  }
+  
