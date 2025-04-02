@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine Town Leadership Dilemma</title>
+    <style>
+        body {
+            background-color: #222;
+            font-family: 'Courier New', monospace;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        #game-container {
+            background-color: black;
+            width: 60vw;
+            height: 60vh;
+            border: 2px solid #555;
+            border-radius: 5px;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #stats-panel {
+            width: 100%;
+            height: 60px;
+            background-color: #222;
+            border: 2px solid #444;
+            padding: 5px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            font-size: 17px;
+            margin-bottom: 10px;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 10px;
+            font-size: clamp(12px, 2vw, 17px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 20%;
+        }
+        
+        /* Main stats panel colors */
+        .stat-item:nth-child(1) { color: lime; }
+        .stat-item:nth-child(2) { color: cyan; }
+        .stat-item:nth-child(3) { color: orange; }
+        .stat-item:nth-child(4) { color: red; }
+        .stat-item:nth-child(5) { color: #aaa; }
+
+        /* Colors for stat labels in results */
+        .population-label { color: lime; }
+        .food-water-label { color: cyan; }
+        .energy-label { color: orange; }
+        .morale-label { color: red; }
+
+        #game-background {
+            width: 100%;
+            height: 50%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            border: 2px solid #666;
+            text-align: center;
+            padding: 10px;
+            flex-direction: column;
+        }
+
+        #continue-button {
+            width: 20vw;
+            height: auto;
+            min-height: 6vh;
+            background-color: #555;
+            border: 2px solid #888;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(12px, 1.8vw, 18px);
+            cursor: pointer;
+            margin-top: 5vh;
+            padding: 10px;
+            text-align: center;
+            white-space: normal;
+        }
+
+        #continue-button:hover {
+            background-color: #666;
+        }
+
+        #popup {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95%;
+            height: 80%;
+            background-color: #333;
+            border: 3px solid #aaa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            display: none;
+            z-index: 10;
+            margin-top: 20px;
+        }
+
+        #popup-title {
+            font-size: clamp(18px, 3.5vw, 28px);
+            font-weight: bold;
+            margin-bottom: 10px;
+            overflow-wrap: break-word;
+        }
+
+        #popup-text {
+            font-size: clamp(14px, 2.5vw, 20px);
+            margin-bottom: 20px;
+            max-height: 35%;
+            overflow-y: auto;
+            padding: 0 10px;
+        }
+
+        .option-button {
+            width: 80%;
+            height: auto;
+            min-height: 40px;
+            max-height: 70px;
+            padding: 10px;
+            background-color: #444;
+            border: 2px solid #888;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(12px, 2vw, 20px);
+            cursor: pointer;
+            margin: 10px auto;
+            display: block;
+            overflow-y: auto;
+        }
+
+        .option-button:hover {
+            background-color: #555;
+        }
+
+        #outcome-display {
+            text-align: center;
+            width: 100%;
+            display: none;
+        }
+
+        #outcome-text {
+            font-size: clamp(14px, 2.5vw, 20px);
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 5px;
+            max-height: 30%;
+            overflow-y: auto;
+        }
+
+        #stat-changes {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .stat-change {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            flex: 1;
+            min-width: 100px;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: clamp(14px, 2.2vw, 20px);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: clamp(12px, 2vw, 16px);
+            margin-bottom: 4px;
+        }
+
+        #continue-after-outcome {
+            width: 50%;
+            height: auto;
+            min-height: 40px;
+            padding: 10px;
+            background-color: #555;
+            border: 2px solid #888;
+            border-radius: 5px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: clamp(14px, 2.5vw, 20px);
+            cursor: pointer;
+            margin: 15px auto;
+        }
+
+        #continue-after-outcome:hover {
+            background-color: #666;
+        }
+
+        @media (max-width: 600px) {
+            #game-container {
+                width: 90vw;
+            }
+            
+            #stats-panel {
+                flex-wrap: wrap;
+                height: auto;
+            }
+            
+            .stat-item {
+                margin: 5px;
+            }
+            
+            #continue-button {
+                width: 60vw;
+            }
+            
+            #stat-changes {
+                flex-direction: column;
+            }
+            
+            .stat-change {
+                width: 100%;
+                text-align: left;
+            }
+            
+            #popup {
+                height: 75%;
+                top: 65%;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let stats = {
+                population: 80,
+                morale: 70,
+                foodWater: 800,
+                energy: 300,
+                prosperity: 0, // Keep this for JSON compatibility
+                days: 0
+            };
+
+            let gameOver = false;
+
+            function updateStats() {
+                // Ensure no stat falls below zero
+                stats.population = Math.max(0, stats.population);
+                stats.morale = Math.max(0, stats.morale);
+                stats.foodWater = Math.max(0, stats.foodWater);
+                stats.energy = Math.max(0, stats.energy);
+                
+                document.getElementById("population").textContent = stats.population;
+                document.getElementById("food-water").textContent = stats.foodWater;
+                document.getElementById("energy").textContent = stats.energy;
+                document.getElementById("morale").textContent = stats.morale;
+                document.getElementById("days").textContent = stats.days;
+                
+                updateContinueButtonText();
+            }
+
+            function updateContinueButtonText() {
+                let buttonText = "";
+                
+                if (stats.foodWater <= 0 && stats.energy <= 0) {
+                    buttonText = "Next day? -10 Population (starving and freezing)";
+                } else if (stats.foodWater <= 0) {
+                    buttonText = "Next day? -10 Population (starving due to no food)";
+                } else if (stats.energy <= 0) {
+                    buttonText = `Next day? -${stats.population} Food, -5 Population (freezing due to no energy)`;
+                } else {
+                    buttonText = `Next day? -${stats.population} Food`;
+                }
+                
+                document.getElementById("continue-button").textContent = buttonText;
+            }
+
+            function checkGameOver() {
+                if (stats.population <= 0) {
+                    gameOver = true;
+                    document.getElementById("game-background").innerHTML = `Everyone is dead. You lose. (zero population)<br><br>The Mine Town lasted ${stats.days} days`;
+                    document.getElementById("continue-button").disabled = true;
+                    return true;
+                } else if (stats.morale <= 0) {
+                    gameOver = true;
+                    document.getElementById("game-background").innerHTML = `Shady throws a coup. You lose. (zero morale)<br><br>The Mine Town lasted ${stats.days} days`;
+                    document.getElementById("continue-button").disabled = true;
+                    return true;
+                }
+                return false;
+            }
+
+            document.getElementById("continue-button").addEventListener("click", function() {
+                if (gameOver) return;
+                
+                // Calculate daily consumption
+                const foodConsumption = stats.population;
+                stats.foodWater -= foodConsumption;
+                
+                // Apply starvation if no food
+                if (stats.foodWater <= 0) {
+                    stats.population -= 10;
+                    stats.population = Math.max(0, stats.population);
+                }
+                
+                // Apply freezing if no energy
+                if (stats.energy <= 0) {
+                    stats.population -= 5;
+                    stats.population = Math.max(0, stats.population);
+                }
+                
+                stats.days += 1;
+                updateStats();
+                
+                // Check for game over conditions
+                if (checkGameOver()) {
+                    return;
+                }
+                
+                loadRandomCard();
+                document.getElementById("popup").style.display = "block";
+            });
+
+            function chooseOption(option) {
+                const effect = option.effect;
+                const outcomeText = option.outcome;
+                
+                document.querySelectorAll('.option-button').forEach(btn => {
+                    btn.style.display = "none";
+                });
+                
+                document.getElementById("outcome-text").textContent = outcomeText;
+                
+                const changes = [
+                    { id: 'population-change', label: 'Population', value: effect.population || 0, labelClass: 'population-label' },
+                    { id: 'food-water-change', label: 'Food & Water', value: effect.foodWater || 0, labelClass: 'food-water-label' },
+                    { id: 'energy-change', label: 'Energy', value: effect.energy || 0, labelClass: 'energy-label' },
+                    { id: 'morale-change', label: 'Morale', value: effect.morale || 0, labelClass: 'morale-label' }
+                ];
+
+                changes.forEach(change => {
+                    const container = document.getElementById(change.id);
+                    container.innerHTML = `
+                        <span class="${change.labelClass} stat-label">${change.label}</span>
+                        <span class="stat-value">${change.value > 0 ? '+' : ''}${change.value}</span>
+                    `;
+                    
+                    const valueSpan = container.querySelector('.stat-value');
+                    if (change.value > 0) {
+                        valueSpan.style.color = "lime";
+                    } else if (change.value < 0) {
+                        valueSpan.style.color = "red";
+                    } else {
+                        valueSpan.style.color = "white";
+                    }
+                });
+                
+                document.getElementById("outcome-display").style.display = "block";
+                
+                document.getElementById("continue-after-outcome").addEventListener("click", function() {
+                    stats.population += effect.population || 0;
+                    stats.morale += effect.morale || 0;
+                    stats.foodWater += effect.foodWater || 0;
+                    stats.energy += effect.energy || 0;
+                    stats.prosperity += effect.prosperity || 0; // Keep this for JSON compatibility
+                    
+                    updateStats();
+                    
+                    // Check for game over after applying effects
+                    if (checkGameOver()) {
+                        document.getElementById("outcome-display").style.display = "none";
+                        document.getElementById("popup").style.display = "none";
+                        return;
+                    }
+                    
+                    document.getElementById("outcome-display").style.display = "none";
+                    document.getElementById("popup").style.display = "none";
+                    
+                    document.getElementById("continue-after-outcome").removeEventListener("click", arguments.callee);
+                });
+            }
+
+            function isOverflowing(element) {
+                return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+            }
+
+            function adjustTextToFit() {
+                const popupText = document.getElementById("popup-text");
+                const popupTitle = document.getElementById("popup-title");
+                const optionButtons = document.querySelectorAll(".option-button");
+                const outcomeText = document.getElementById("outcome-text");
+                
+                if (isOverflowing(popupTitle)) {
+                    let size = parseInt(window.getComputedStyle(popupTitle).fontSize);
+                    while (isOverflowing(popupTitle) && size > 14) {
+                        size--;
+                        popupTitle.style.fontSize = size + "px";
+                    }
+                }
+                
+                if (isOverflowing(popupText) && popupText.scrollHeight > popupText.clientHeight * 2) {
+                    popupText.style.maskImage = "linear-gradient(to bottom, black 80%, transparent 100%)";
+                    popupText.style.webkitMaskImage = "linear-gradient(to bottom, black 80%, transparent 100%)";
+                }
+                
+                if (outcomeText.style.display !== "none" && isOverflowing(outcomeText)) {
+                    let size = parseInt(window.getComputedStyle(outcomeText).fontSize);
+                    while (isOverflowing(outcomeText) && size > 12) {
+                        size--;
+                        outcomeText.style.fontSize = size + "px";
+                    }
+                }
+                
+                optionButtons.forEach(button => {
+                    if (isOverflowing(button)) {
+                        let size = parseInt(window.getComputedStyle(button).fontSize);
+                        while (isOverflowing(button) && size > 10) {
+                            size--;
+                            button.style.fontSize = size + "px";
+                        }
+                    }
+                });
+            }
+
+            window.addEventListener('resize', adjustTextToFit);
+
+            function loadRandomCard() {
+                const cardFiles = [
+                    'cards/card1.json',
+                    'cards/card2.json',
+                    'cards/card3.json',
+                    'cards/card4.json',
+                    'cards/card5.json',
+                    'cards/card6.json',
+                    'cards/card7.json',
+                    'cards/card8.json',
+                    'cards/card9.json',
+                    'cards/card10.json',
+                    'cards/card11.json',
+                    'cards/card12.json',
+                    'cards/card13.json'
+                ];
+
+                const randomFile = cardFiles[Math.floor(Math.random() * cardFiles.length)];
+
+                console.log('Attempting to fetch:', randomFile);
+
+                fetch(randomFile)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Network response was not ok: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        document.getElementById("outcome-display").style.display = "none";
+                        document.querySelectorAll('.option-button').forEach(btn => btn.remove());
+                        
+                        document.getElementById("popup-title").textContent = data.title;
+                        document.getElementById("popup-text").textContent = data.description;
+    
+                        data.options.forEach((option) => {
+                            const optionButton = document.createElement("button");
+                            optionButton.classList.add("option-button");
+                            optionButton.textContent = option.text;
+                            optionButton.addEventListener("click", function() {
+                                chooseOption(option);
+                            });
+                            document.getElementById("popup").appendChild(optionButton);
+                        });
+                        
+                        setTimeout(adjustTextToFit, 10);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching the JSON file:', error);
+                        document.getElementById("popup-title").textContent = "Error";
+                        document.getElementById("popup-text").textContent = "Failed to load scenario card: " + error.message;
+                        document.getElementById("popup").style.display = "block";
+                    });
+            }
+
+            updateStats();
+        });
+    </script>
+</head>
+<body>
+    <div id="game-container">
+        <div id="stats-panel">
+            <div class="stat-item">Population: <span id="population">1500</span></div>
+            <div class="stat-item">Food & Water: <span id="food-water">85</span></div>
+            <div class="stat-item">Energy: <span id="energy">70</span></div>
+            <div class="stat-item">Morale: <span id="morale">65</span></div>
+            <div class="stat-item">Days: <span id="days">1</span></div>
+        </div>
+        
+        <div id="game-background"><img src="minetown.gif" alt="Mine Town" style="width: 100%; height: 100%; object-fit: cover;"></div>
+        
+        <button id="continue-button">Next Day? -80 Food</button>
+        
+        <div id="popup" style="display: none;">
+            <div id="popup-title"></div>
+            <div id="popup-text"></div>
+            <div id="outcome-display" style="display: none;">
+                <div id="outcome-text"></div>
+                <div id="stat-changes">
+                    <div class="stat-change" id="population-change"></div>
+                    <div class="stat-change" id="food-water-change"></div>
+                    <div class="stat-change" id="energy-change"></div>
+                    <div class="stat-change" id="morale-change"></div>
+                </div>
+                <button id="continue-after-outcome">Continue</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
