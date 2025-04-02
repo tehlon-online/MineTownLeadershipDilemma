@@ -1,0 +1,40 @@
+{
+    "title": "Heat's Out",
+    "description": "The furnace has failed, and the cold is creeping in. Without heat, people will suffer, and work will slow. We need to decide how to handle this before it gets worse.",
+    "options": [
+      {
+        "text": "Old-Timer - No half-measures. We fix it right, we fix it permanently. It’ll cost us, but we won’t have to worry about it again.",
+        "outcome": "The furnace is fully repaired, ensuring warmth for the foreseeable future. However, it takes a heavy toll on resources.",
+        "effect": {
+          "population": 0,
+          "morale": 20,
+          "foodWater": -50,
+          "prosperity": 100,
+          "energy": -150
+        }
+      },
+      {
+        "text": "Shady - A full repair’s a waste right now. Let’s insulate the entrance and cut our losses. It'll be fine—for now.",
+        "outcome": "The entrance is sealed up, reducing heat loss. It’s not a perfect solution, but it buys time and keeps energy use down.",
+        "effect": {
+          "population": 0,
+          "morale": 5,
+          "foodWater": -50,
+          "prosperity": 50,
+          "energy": -20
+        }
+      },
+      {
+        "text": "Beck - We don’t have to overreact. Just hand out blankets and wait for the weather to turn. It’ll get better… right?",
+        "outcome": "People huddle together under blankets. Some fall ill, but supplies are conserved. If the cold lasts, things could get worse.",
+        "effect": {
+          "population": -5,
+          "morale": -10,
+          "foodWater": 0,
+          "prosperity": 0,
+          "energy": 20
+        }
+      }
+    ]
+  }
+  

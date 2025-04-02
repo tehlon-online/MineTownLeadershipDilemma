@@ -1,0 +1,40 @@
+{
+    "title": "BATS!",
+    "description": "A swarm of bats has infested part of the settlement, nesting in the rafters and contaminating food stores. They’re a nuisance, possibly dangerous. How do we deal with them?",
+    "options": [
+      {
+        "text": "Beck - They’re just trying to survive, like us. Set up some barriers and let’s learn to live with them.",
+        "outcome": "The bats remain. One man dies of disease. Otherwise the containment is successful with minor losses.",
+        "effect": {
+          "population": -1,
+          "morale": 5,
+          "foodWater": -10,
+          "prosperity": 0,
+          "energy": -10
+        }
+      },
+      {
+        "text": "Old-Timer - Bats are a delicacy in some parts of the world. Meat is meat. This is a blessing in disguise!",
+        "outcome": "The bats are hunted and consumed. Sever men die of infectious disease, but our freezers are stocked.",
+        "effect": {
+          "population": -3,
+          "morale": -10,
+          "foodWater": 120,
+          "prosperity": 0,
+          "energy": -20
+        }
+      },
+      {
+        "text": "Shady - We don’t have time for this. Smoke them out, destroy their nests, and keep our supplies safe.",
+        "outcome": "It took forever, but the bats are wiped out completely. The camp cheers to be rid of the pests.",
+        "effect": {
+          "population": 0,
+          "morale": 15,
+          "foodWater": -50,
+          "prosperity": 0,
+          "energy": -50
+        }
+      }
+    ]
+  }
+  
